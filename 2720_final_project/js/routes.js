@@ -206,7 +206,7 @@ app.get('/listUserItems', async (req, res) => {
         // has the right to proceed.
         if (username){
             if (req.session.user && req.session.user == username){
-                let pageData = await model.getItemsWithUsername(page, orderBy, order, username);
+                let pageData = await model.getItemsWithUsername2(page, orderBy, order, username);
                 // Step 5: Render the view
                 res.render('listUserItems.ejs', { title: 'Item Listing', pageData: pageData, Query: Query, user:user, admin:admin});
 

@@ -161,6 +161,54 @@ async function getItemsWithUsername(page, orderBy, order, username) {
     return pData;
 }
 
+async function getItemsWithUsername2(page, orderBy, order, username) {
+
+    // Determine the sorting order
+    // In this example, orderBy == 1 => order by 'createdOn'
+    orderBy = orderBy || 1;   // Default to 1
+    order = (order == 1 || order == -1) ? order : 1;
+
+    let pData = new PaginationData( {
+        pageSize: 10,
+        params: {
+            orderBy: orderBy,
+            order: order
+        }
+    });
+
+    let user = await User.findOne({"username":username});
+
+    let condition = {"owner": user._id};   // Retrieve all items
+
+    let itemCount = await Item.count(condition);
+
+    pData.pageCount = Math.ceil(itemCount / pData.pageSize);
+
+    // Ensure the current page number is between 1 and pData.pageCount
+    page = (!page || page <= 0) ? 1 : page;
+    page = (page >= pData.pageCount) ? pData.pageCount : page;
+    if (page==0) page=1;
+    pData.currentPage = page;
+    // Construct parameter for sorting
+    let sortParam = {};
+    if (orderBy == 1)
+        sortParam = { redeemedOn: order };
+    else sortParam = {tokenValue: order};
+
+    // ----- Construct query and retrieve items from DB -----
+    // Construct query
+
+    pData.items = await Item.
+    find(condition).
+    skip(pData.pageSize * (pData.currentPage-1)).
+    limit(pData.pageSize).
+    sort(sortParam).
+    exec();
+
+    pData.validate(); // Make sure all required properties exist.
+
+    return pData;
+}
 
 async function getItem(id) {
   let _id = new mongoose.Types.ObjectId(id);
@@ -259,5 +307,6 @@ module.exports = {
     getUser: getUser,
     getCSV: getCSV,
     getItemsWithUsername: getItemsWithUsername,
+    getItemsWithUsername2: getItemsWithUsername2,
     getItemsAdmin: getItemsAdmin
 }
