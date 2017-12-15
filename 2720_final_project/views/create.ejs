@@ -1,0 +1,43 @@
+
+<%- include header2.ejs %>
+
+<div id=content class="pusher">
+    <div class="ui text container">
+        <div class="ui very padded segment" style="margin: 30px">
+          <form action="/admin/create" method=post enctype="multipart/form-data" class="ui form" id="create">
+              <div class="ui dividing large header">
+                      Create Item
+              </div>
+              <div class="field">
+                  <label>Title</label>
+                  <input type="text" name="title" placeholder="Title" required>
+              </div>
+              <div class="two fields">
+                  <div class="field">
+                      <label>Price</label>
+                      <input type="number" name="tokenValue" placeholder="Price" required>
+                  </div>
+                  <div class="field">
+                      <label>Quantity</label>
+                      <input type="number" name="availableQuantity" placeholder="Quantity" required>
+                  </div>
+              </div>
+              <div class="field">
+                  <label>Description</label>
+                  <textarea rows="5" name="description" form="create" placeholder="Description" required></textarea>
+              </div>
+              <div>
+                  <label>Tags</label>
+                  <input type="text" name="tags" placeholder="Tags with comma splitted" required>
+              </div>
+              <div class="field">
+                  <label>Picture</label>
+                  <input type="file" name="myfile" required>
+              </div>
+              <button class="ui black button"  type=submit>Submit</button>
+          </form>
+        </div>
+    </div>
+
+</div>
+<%- include footer.ejs %>

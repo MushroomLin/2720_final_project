@@ -1,0 +1,60 @@
+
+<%- include header2.ejs %>
+
+<div id=content class="pusher">
+    <div class="ui container">
+        <div class="ui very padded segment" style="margin: 30px">
+            <div class="ui black button" onclick="location.href='/admin/create'">New</div>
+            <div class="ui black button" onclick="location.href='/downloadcsv'">Download CSV</div>
+            <div class="ui divider"></div>
+            <div class="ui link divided items">
+                <% for (let item of items) {
+                    let q = Query.stringify({id: item._id});
+                    let w = Query.stringify({item_id: item._id});
+                %>
+                <a class="item" href="/item?<%=q%>">
+                    <div class="ui tiny image">
+                        <img src="<%=item.img%>">
+                    </div>
+                    <div class="content">
+                        <div class="header">
+                            <div><%=item.title%></div>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class="description">
+                            <p><i class="info circle icon"></i>
+                                <b>Description:</b> <%=item.description%>
+                            </p>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <i class="calendar icon"></i>
+                                <b>Created on:</b> <%=item.createdOn.toLocaleString()%>
+                            </p>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <i class="money icon"></i>
+                                <b>Price:</b> <%=item.tokenValue%>
+                            </p>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <i class="shop icon"></i>
+                                <b>Available:</b> <%=item.availableQuantity%>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <div class="ui right floated blue button" onclick="location.href='/admin/update?<%=w%>'">Edit</div>
+                <form action="/admin/delete" method="post">
+                    <input type="text" name="item_id" value="<%=item._id%>" hidden>
+                    <button class="ui right floated red button" type=submit>Delete</button>
+                </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include footer.ejs %>

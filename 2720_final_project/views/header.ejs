@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<%
+// Set default values
+locals.user = locals.user || "";
+locals.admin = locals.admin || "";
+locals.loginMsg = locals.loginMsg || "";
+%>
+<html>
+<head>
+  <title>
+      Token Buy
+  </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js"></script>
+  <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css'>
+    <style>
+        #content{
+            padding-top: 75px;
+            min-height: 100%;
+        }
+        body {
+            background-color: #FFFFFF;
+        }
+        .backgd{
+            background-image:url('/images/background.jpg');
+            background-position: center;
+        }
+        .transbox{
+            background: rgba(0, 0, 0, 0.4);
+            height: 100%;
+            position: absolute;
+        }
+        .column {
+            max-width: 450px;
+        }
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+    </style>
+</head>
+<body>
+<div class="ui fixed inverted menu">
+  <div class="ui container" style="height: 75px">
+    <a href="/" class="header item">
+      <img class="logo" src="/images/logo.png" style="height: 75px;width: auto">
+      Token Buy
+    </a>
+    <a href="/" class="item">
+        <i class="home icon"></i>
+        Home</a>
+      <a href="/listItems2" class="item">
+          <i class="shop icon"></i>
+          Items</a>
+  </div>
+    <% if (!user){ %>
+    <a class="ui right floated item" href="/login">
+        <i class="sign in icon"></i>
+        Login</a>
+    <% } %>
+    <%if (user){ %>
+    <a class="ui right floated item" href="/listUserItems?page=1&orderBy=1&order=1&username=<%=user.username%>">
+        <i class="user icon"></i>
+        <%=user.username%>&nbsp&nbsp&nbsp
+        <i class="money icon"></i>
+        <%=user.balance%>
+        <a class="ui right floated item"  href="/logout">
+            <i class="sign out icon"></i>
+            Logout</a>
+    </a>
+    <% } %>
+</div>
+
+
+

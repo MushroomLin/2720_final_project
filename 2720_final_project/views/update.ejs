@@ -1,0 +1,47 @@
+
+<%- include header2.ejs %>
+
+<div id=content class="pusher">
+    <div class="ui text container">
+        <div class="ui very padded segment" style="margin: 30px">
+            <form action="/admin/update" method=post enctype="multipart/form-data" class="ui form" id="create">
+                <div class="ui dividing large header">
+                    Edit Item
+                </div>
+                <div class="field">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Title" value="<%=item.title%>" required>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Price</label>
+                        <input type="number" name="tokenValue" placeholder="Price" value="<%=item.tokenValue%>" required>
+                    </div>
+                    <div class="field">
+                        <label>Quantity</label>
+                        <input type="number" name="availableQuantity" placeholder="Quantity" value="<%=item.availableQuantity%>" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Description</label>
+                    <textarea rows="5" name="description" form="create" placeholder="Description" required>
+                        <%=item.description%>
+                    </textarea>
+                </div>
+                <div>
+                    <label>Tags</label>
+                    <input type="text" name="tags" placeholder="Tags with comma splitted" value="<%=item.tags%>" required>
+                </div>
+                <div class="field">
+                    <label>Picture</label>
+                    <input type="file" name="myfile">
+                </div>
+                <input type="text" name="item_id" value="<%=item._id%>" hidden>
+                <input type="text" name="img" value="<%=item.img%>" hidden>
+                <button class="ui black button"  type=submit>Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<%- include footer.ejs %>

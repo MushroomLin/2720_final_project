@@ -1,0 +1,126 @@
+
+<% if (admin==123){%>
+<%- include header2.ejs%>
+<%}%>
+<% if (admin!=123){%>
+<%- include header.ejs%>
+<%}%>
+<%
+// Set default values
+locals.user = locals.user || "";
+locals.admin = locals.admin || "";
+locals.max=Number(locals.user.balance/data.tokenValue);
+locals.availableQuantity=Number(data.availableQuantity);
+
+%>
+  <div id=content class="pusher">
+      <div class="ui text container">
+          <div class="ui very padded segment" style="margin: 30px">
+
+              <h1 class="ui header">
+                  <img class="ui circular image" src="<%=data.img%>">
+                  <%=data.title%>
+              </h1>
+              <div class="ui relaxed divided list">
+                  <div class="item">
+                      <h3>
+                          <i class="calendar icon"></i>
+                          <b>Created On:</b> <%=data.createdOn.toLocaleString()%>
+                      </h3>
+                  </div>
+                  <div class="item">
+                      <h3>
+                          <i class="money icon"></i>
+                          <b>Price: </b><%=data.tokenValue%>
+                      </h3>
+                  </div>
+                  <div class="item">
+                      <h3>
+                          <i class="shop icon"></i>
+                          <b>Available:</b> <%=data.availableQuantity%>
+                      </h3>
+                  </div>
+                  <div class="item">
+                      <h3>
+                          <i class="tag icon"></i>
+                          <b>Tags:</b>
+                          <%for (let tag of data.tags){%>
+                              <a class="ui label">
+                                  <i class="tag icon"></i>
+                                  <%=tag%>
+                              </a>
+                          <%}%>
+                      </h3>
+                  </div>
+                  <div class="item">
+                      <h3><i class="info circle icon"></i>
+                          <b>Description:</b>
+                          <p><%=data.description%></p>
+                      </h3>
+                  </div>
+              </div>
+              <div class="ui divider"></div>
+              <% if (user && !data.owner && !admin) {%>
+              <div class="ui container">
+                  <form class="ui form" method="post">
+                      <div class="field">
+                          <label>Quantity</label>
+                          <input type="number" name="quantity" placeholder="Quantity">
+                          <input type="text" name="username" value="<%=user.username%>" hidden>
+                          <input type="text" name="item_id" value="<%=data._id%>" hidden>
+                      </div>
+                      <div class="ui error message">
+                      </div>
+                      <button class="ui button" type="submit">Redeem</button>
+                  </form>
+              </div>
+              <% } %>
+              <% if (!user && !admin && !data.owner) {%>
+              <div class="ui container">
+                  <button class="ui button" onclick="location.href='/login'">Login</button>
+              </div>
+              <% } %>
+          </div>
+      </div>
+
+  </div>
+<script>
+    $.fn.form.settings.rules.greaterThan = function (inputValue, validationValue) {
+        return Number(inputValue) <= Number(validationValue);
+    }
+    $.fn.form.settings.rules.greaterThan2 = function (inputValue, validationValue) {
+        return Number(inputValue) <= Number(validationValue);
+    }
+    $(document)
+        .ready(function() {
+            $('.ui.form')
+                .form({
+                    fields: {
+                        quantity: {
+                            identifier  : 'quantity',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please enter the quantity you want.'
+                                },
+                                {
+                                    type: 'number',
+                                    prompt: 'A valid number is required.',
+                                },
+                                {
+                                    type   : 'greaterThan[<%=locals.availableQuantity%>]',
+                                    prompt : 'Quantity is not enough'
+                                },
+                                {
+                                    type   : 'greaterThan2[<%=locals.max%>]',
+                                    prompt : 'Token is not enough'
+                                }
+                            ]
+                        },
+                    }
+                })
+            ;
+        })
+    ;
+</script>
+<%- include footer.ejs %>

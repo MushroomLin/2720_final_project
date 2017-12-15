@@ -1,0 +1,20 @@
+<% if (admin==123){%>
+    <%- include header2.ejs%>
+<%}%>
+<% if (admin!=123){%>
+<%- include header.ejs%>
+<%}%>
+<div id=content class='pusher backgd'>
+  <div class="ui fluid container transbox">
+    <div class="ui center aligned text container" style="padding-top: 150px">
+        <h1 class="ui center aligned icon inverted header" style="font-size: 5rem">
+          Use-Your-Tokens
+        </h1>
+        <h2 class="ui inverted header">Redeem whatever you want and enjoy it.</h2>
+        <div class="ui huge primary button" onclick="location.href='/listItems2'"> Get Started
+          <i class="right arrow icon"></i>
+          </div>
+      </div>
+  </div>
+</div>
+<%- include footer.ejs %>
